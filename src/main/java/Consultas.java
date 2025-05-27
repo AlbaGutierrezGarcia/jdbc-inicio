@@ -15,7 +15,8 @@ public class Consultas {
         try (
                 Connection connection = DriverManager.getConnection(url, user, password)) {
             // Ejecutamos las consultas
-            consulta11(connection);
+            consulta7(connection);
+            consulta8(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
