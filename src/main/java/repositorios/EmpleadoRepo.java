@@ -1,13 +1,12 @@
 package repositorios;
 
-
 import modelos.Empleado;
 import util.ConexionBD;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 /**
  * Est clase representa un repositorio para gestionar todas las operaciones con la BBDD que se realicen con la
@@ -15,6 +14,7 @@ import java.util.Optional;
  * Debe proporcionar todos los métodos necesarios para manejar la información requerida por las especificaciones de la
  * aplicación
  */
+
 public class EmpleadoRepo {
 
     private static final String LISTAR_EMPLEADOS = "SELECT * FROM empleado";
@@ -28,9 +28,9 @@ public class EmpleadoRepo {
     }
 
     public List<Empleado> listarEmpleados() {
-        // Creamos la variable que conterndrá los datos de los empleados
+        // Creamos la variable que contendrá los datos de los empleados
         List<Empleado> empleados = new ArrayList<>();
-        // ejecutamos la consulta dentro de un try con recursos para asegurarnos el cierre de estos
+        // Ejecutamos la consulta dentro de un try con recursos para asegurarnos el cierre de estos
         try(Statement stmt = obtenerSentencia();
             ResultSet rs = stmt.executeQuery(LISTAR_EMPLEADOS)) {
             // Recorremos el resulset para asignar cada registro a un empleado
@@ -43,19 +43,19 @@ public class EmpleadoRepo {
         return empleados;
     }
 
-    public Optional<Empleado> leerEmpleado(Integer id) throws SQLException {
-        Empleado empleado = new Empleado();
-        String sql = "SELECT * FROM empleado WHERE codigo_empleado = ?";
-        try(PreparedStatement stmt = obtenerConexion().prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()) {
+public  Optional<Empleado> leerEmpleado(Integer id) throws SQLException {
+    Empleado empleado = null;
+    String sql = "SELECT * FROM empleado WHERE codigo_empleado = ?";
+    try (PreparedStatement stmt = obtenerConexion().prepareStatement(sql)) {
+        stmt.setInt(1, id);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
                 empleado = cargarEmpleado(rs);
             }
-            return empleado;
         }
     }
-
+    return Optional.ofNullable(empleado);
+}
     private Empleado cargarEmpleado(ResultSet rs) throws SQLException {
         Empleado empleado = new Empleado();
         empleado.setCodigoEmpleado(rs.getInt("codigo_empleado"));
