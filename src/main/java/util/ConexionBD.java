@@ -17,20 +17,16 @@ public class ConexionBD {
 
     private static final String url = "jdbc:postgresql://localhost:5432/jardineria1";
     private static final String usuario = "jardinero";
-    private static final String contraseña = "jardinero";
+    private static final String clave = "jardinero";
 
     // el metodo debe devolver una variable de tipo Connection que será utilizada por el código que llama
     private static Connection conex = null;
 
-    public static Connection obtenerConexion() throws SQLException {
+    public static Connection creaConexion() throws SQLException {
         if (conex == null || conex.isClosed()) {
-            conex = DriverManager.getConnection(url, usuario, contraseña);
+            conex = DriverManager.getConnection(url, usuario, clave);
         }
         return conex;
-    }
-
-    private Statement obtenerSentencia() throws SQLException {
-        return obtenerConexion().createStatement();
     }
 
 

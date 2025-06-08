@@ -20,7 +20,7 @@ public class EmpleadoRepo {
     private static final String LISTAR_EMPLEADOS = "SELECT * FROM empleado";
 
     private Connection obtenerConexion() throws SQLException {
-        return ConexionBD.obtenerConexion();
+        return ConexionBD.creaConexion();
     }
 
     private Statement obtenerSentencia() throws SQLException {
